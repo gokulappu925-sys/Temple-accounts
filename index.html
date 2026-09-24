@@ -4,6 +4,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Temple Accounting &amp; Fund Management</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = '[https://kpioeadpnetacymhubbm.supabase.co](https://kpioeadpnetacymhubbm.supabase.co)';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtwaW9lYWRwbmV0YWN5bWh1YmJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAyNjc0MTIsImV4cCI6MjEwNTg0MzQxMn0.VIjLm9RqCLdzg7DNOmv0fFp9BpUrwTyQcKfNdInJ_sM;
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // Function to save data to Supabase
+  async function saveDataToCloud(data) {
+    const { error } = await supabase
+      .from('temple_data')
+      .upsert({ id: 1, records: data });
+    if (error) console.error("Error saving:", error);
+  }
+
+  // Function to load data from Supabase
+  async function loadDataFromCloud() {
+    const { data, error } = await supabase
+      .from('temple_data')
+      .select('records')
+      .eq('id', 1)
+      .single();
+    if (data) return data.records;
+    return null;
+  }
+</script>
+
 <style>
 :root {
   --maroon: #800000;
